@@ -12,6 +12,7 @@ local furnace_fire_sounds = {}
 
 function default.get_furnace_active_formspec(fuel_percent, item_percent)
 	return "size[8,8.5]"..
+		"button_exit[7,0.2;0.8,0.8;exit;X]" ..
 		"list[context;src;2.75,0.5;1,1;]"..
 		"list[context;fuel;2.75,2.5;1,1;]"..
 		"image[2.75,1.5;1,1;default_furnace_fire_bg.png^[lowpart:"..
@@ -32,6 +33,9 @@ end
 
 function default.get_furnace_inactive_formspec()
 	return "size[8,8.5]"..
+		"style[invbtn_exit;border=false]" ..
+		"style[invbtn_exit:hovered;fgimg=sfinv_exit_btn_hover.png;border=false]" ..
+		"image_button_exit[8,0;1,1;sfinv_exit_btn.png;invbtn_exit;]" ..
 		"list[context;src;2.75,0.5;1,1;]"..
 		"list[context;fuel;2.75,2.5;1,1;]"..
 		"image[2.75,1.5;1,1;default_furnace_fire_bg.png]"..
