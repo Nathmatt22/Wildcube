@@ -1,4 +1,5 @@
 -- default/furnace.lua
+local sfinv_tex = minetest.get_modpath("sfinv"):gsub("\\", "/") .. "/textures/"
 
 -- support for MT game translation.
 local S = default.get_translator
@@ -19,7 +20,7 @@ function default.get_furnace_active_formspec(fuel_percent, item_percent)
 		(fuel_percent)..":default_furnace_fire_fg.png]"..
 		"image[3.75,1.5;1,1;gui_furnace_arrow_bg.png^[lowpart:"..
 		(item_percent)..":gui_furnace_arrow_fg.png^[transformR270]"..
-		"list[context;dst;4.75,0.96;2,2;]"..
+		"list[context;dst;4.75,0.96;1,1;]"..
 		"list[current_player;main;0,4.25;8,1;]"..
 		"list[current_player;main;0,5.5;8,3;8]"..
 		"listring[context;dst]"..
@@ -34,13 +35,13 @@ end
 function default.get_furnace_inactive_formspec()
 	return "size[8,8.5]"..
 		"style[invbtn_exit;border=false]" ..
-		"style[invbtn_exit:hovered;fgimg=sfinv_exit_btn_hover.png;border=false]" ..
-		"image_button_exit[8,0;1,1;sfinv_exit_btn.png;invbtn_exit;]" ..
+		"style[invbtn_exit:hovered;fgimg=exit_btn_hover.png;border=false]" ..
+		"image_button_exit[7,0;1,1;exit_btn.png;invbtn_exit;]" ..
 		"list[context;src;2.75,0.5;1,1;]"..
 		"list[context;fuel;2.75,2.5;1,1;]"..
 		"image[2.75,1.5;1,1;default_furnace_fire_bg.png]"..
 		"image[3.75,1.5;1,1;gui_furnace_arrow_bg.png^[transformR270]"..
-		"list[context;dst;4.75,0.96;2,2;]"..
+		"list[context;dst;4.75,1.5;1,1;]"..
 		"list[current_player;main;0,4.25;8,1;]"..
 		"list[current_player;main;0,5.5;8,3;8]"..
 		"listring[context;dst]"..
@@ -49,9 +50,19 @@ function default.get_furnace_inactive_formspec()
 		"listring[current_player;main]"..
 		"listring[context;fuel]"..
 		"listring[current_player;main]"..
+		"button[6.3,2.9;1.4,0.8;recettes;Recettes]"..
 		default.get_hotbar_bg(0, 4.25)
 end
 
+core.register_on_player_receive_fields(function(player, formname, fields)
+	if formname ~= "" then return end
+	
+	if fields.recettes then
+		local context = sfinv.get_or_create_context(player)
+		context.page = "mtg_craftguide:craftguide"
+		sfinv.set_player_inventory_formspec(player, context)
+	end
+end)
 --
 -- Node callback functions that are the same for active and inactive furnace
 --
